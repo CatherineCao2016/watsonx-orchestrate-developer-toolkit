@@ -31,12 +31,12 @@ def _get_access_token():
     }
     data = {"grant_type": "urn:ibm:params:oauth:grant-type:apikey", "apikey": api_key}
 
-    if os.path.isfile(file_path):
-        file_time = os.path.getmtime(file_path)
-        if time.time() - file_time < 3600:
-            logger.info("Retrieved cached token")
-            with open(file_path, "r") as file:
-                return file.read()
+    # if os.path.isfile(file_path):
+    #     file_time = os.path.getmtime(file_path)
+    #     if time.time() - file_time < 3600:
+    #         logger.info("Retrieved cached token")
+    #         with open(file_path, "r") as file:
+    #             return file.read()
 
     response = requests.post(url, headers=headers, data=data)
 
@@ -44,8 +44,8 @@ def _get_access_token():
         token_data = json.loads(response.text)
         token = token_data["access_token"]
 
-        with open(file_path, "w") as file:
-            file.write(token)
+        # with open(file_path, "w") as file:
+        #     file.write(token)
         logger.info("Retrieved new token")
         return token
     else:
